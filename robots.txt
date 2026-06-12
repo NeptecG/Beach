@@ -1,0 +1,5 @@
+# Beach Bar Template - replace yourbeachbar.gr with your real domain
+User-agent: *
+Allow: /
+
+Sitemap: https://www.yourbeachbar.gr/sitemap.xml

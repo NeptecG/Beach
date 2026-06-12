@@ -1,0 +1,14 @@
+# Test / tooling artifacts
+.playwright-mcp/
+
+# OS junk
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Logs
+*.log
+
+# Editor
+.vscode/
+.idea/
