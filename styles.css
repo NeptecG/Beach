@@ -230,9 +230,11 @@ body::after {
   letter-spacing: -0.01em;
   margin-bottom: var(--space-3);
   color: #fffaf0;
+  text-shadow: 0 2px 18px rgba(4, 28, 26, 0.55);
 }
 .hero h1 em { font-style: italic; color: var(--gold); }
-.hero p { font-size: clamp(1.1rem, 2vw, 1.3rem); max-width: 36rem; color: #d8ece8; }
+.hero-kicker { text-shadow: 0 1px 10px rgba(4, 28, 26, 0.5); }
+.hero p { font-size: clamp(1.1rem, 2vw, 1.3rem); max-width: 36rem; color: #eef6f3; text-shadow: 0 1px 12px rgba(4, 28, 26, 0.5); }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
 
 /* aerial beach scene (homepage hero background) */
@@ -258,10 +260,10 @@ body::after {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(90deg, rgba(7, 48, 46, 0.85) 0%, rgba(7, 48, 46, 0.62) 48%, rgba(7, 48, 46, 0.18) 100%);
+  background: linear-gradient(90deg, rgba(7, 48, 46, 0.55) 0%, rgba(7, 48, 46, 0.28) 45%, rgba(7, 48, 46, 0.02) 100%);
 }
 @media (max-width: 720px) {
-  .hero-scrim { background: linear-gradient(180deg, rgba(7, 48, 46, 0.78) 0%, rgba(7, 48, 46, 0.6) 100%); }
+  .hero-scrim { background: linear-gradient(180deg, rgba(7, 48, 46, 0.45) 0%, rgba(7, 48, 46, 0.22) 100%); }
 }
 
 /* hero sun */
