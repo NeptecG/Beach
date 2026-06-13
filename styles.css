@@ -260,10 +260,15 @@ body::after {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(90deg, rgba(7, 48, 46, 0.55) 0%, rgba(7, 48, 46, 0.28) 45%, rgba(7, 48, 46, 0.02) 100%);
+  /* darken only where the text sits (left + bottom), keep the rest of the photo clear */
+  background:
+    linear-gradient(90deg, rgba(7, 48, 46, 0.58) 0%, rgba(7, 48, 46, 0.26) 38%, rgba(7, 48, 46, 0) 70%),
+    linear-gradient(0deg, rgba(7, 48, 46, 0.34) 0%, rgba(7, 48, 46, 0) 40%);
 }
 @media (max-width: 720px) {
-  .hero-scrim { background: linear-gradient(180deg, rgba(7, 48, 46, 0.45) 0%, rgba(7, 48, 46, 0.22) 100%); }
+  .hero-scrim {
+    background: linear-gradient(180deg, rgba(7, 48, 46, 0.42) 0%, rgba(7, 48, 46, 0.16) 42%, rgba(7, 48, 46, 0.5) 100%);
+  }
 }
 
 /* hero sun */
