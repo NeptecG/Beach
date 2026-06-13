@@ -705,11 +705,11 @@ body::after {
 
 /* ---------- footer ---------- */
 .site-footer {
-  background: var(--ink);
-  color: #c8d6d3;
+  background: var(--sea-deep);
+  color: #d6e7e3;
   margin-top: 0;
 }
-.footer-waves { color: var(--ink); background: var(--sand); }
+.footer-waves { color: var(--sea-deep); background: var(--sand); }
 .section-sea + .site-footer .footer-waves,
 .footer-waves.on-paper { background: var(--paper); }
 .site-footer .container { padding-block: var(--space-5) var(--space-3); }
@@ -729,7 +729,7 @@ body::after {
 .footer-brand p { font-size: 0.95rem; max-width: 26rem; }
 .site-footer h4 { color: var(--sand); font-size: 1.05rem; letter-spacing: 0.08em; text-transform: uppercase; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
-.site-footer a { color: #c8d6d3; text-decoration: none; transition: color 0.2s; }
+.site-footer a { color: #d6e7e3; text-decoration: none; transition: color 0.2s; }
 .site-footer a:hover { color: var(--gold); }
 .footer-contact li { display: flex; gap: 0.6rem; align-items: flex-start; }
 .footer-contact svg { width: 18px; height: 18px; flex: none; margin-top: 0.25rem; color: var(--gold); }
