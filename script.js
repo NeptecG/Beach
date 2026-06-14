@@ -5,6 +5,103 @@
 
   var isGreek = (document.documentElement.lang || "").toLowerCase().indexOf("el") === 0;
 
+  // ---- gallery auto-loader ----------------------------------------------
+  // Any element with data-gallery="<folder>/" fills itself with cards for the
+  // photos it finds: 01.jpg, 02.jpg, 03.jpg ... Drop as many as you like
+  // (named in order, .jpg) and they appear automatically - no HTML editing.
+  // data-gallery-limit="N" caps how many to show (used by the homepage strip).
+  // If no photos are found, labelled placeholders show instead.
+  (function initGalleries() {
+    var containers = document.querySelectorAll("[data-gallery]");
+    if (!containers.length) return;
+
+    var MAX = 99;          // hard ceiling on how many photos to look for
+    var BATCH = 8;         // probe in windows; tolerates gaps up to this size
+    var EXT = ".jpg";
+
+    function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+    function probe(src, n) {
+      return new Promise(function (resolve) {
+        var img = new Image();
+        img.onload = function () { resolve({ ok: true, n: n }); };
+        img.onerror = function () { resolve({ ok: false, n: n }); };
+        img.src = src;
+      });
+    }
+
+    function svgIcon() {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>';
+    }
+
+    function renderPhotos(container, base, nums, limit) {
+      nums.sort(function (a, b) { return a - b; });
+      if (limit) nums = nums.slice(0, limit);
+      var altWord = isGreek ? "Φωτογραφία" : "Photo";
+      var frag = document.createDocumentFragment();
+      nums.forEach(function (n) {
+        var item = document.createElement("div");
+        item.className = "gallery-item";
+        var img = document.createElement("img");
+        img.src = base + pad(n) + EXT;
+        img.alt = altWord + " " + n;
+        img.loading = "lazy";
+        item.appendChild(img);
+        frag.appendChild(item);
+      });
+      container.innerHTML = "";
+      container.appendChild(frag);
+    }
+
+    function renderPlaceholders(container, base, count) {
+      var label = isGreek ? "ΦΩΤΟΓΡΑΦΙΑ" : "PHOTO";
+      var html = "";
+      for (var n = 1; n <= count; n++) {
+        html += '<div class="gallery-item"><div class="photo-ph">' + svgIcon() +
+          label + '<small>' + base + pad(n) + EXT + '</small></div></div>';
+      }
+      container.innerHTML = html;
+    }
+
+    containers.forEach(function (container) {
+      var base = container.getAttribute("data-gallery");
+      if (!base) return;
+      var limit = parseInt(container.getAttribute("data-gallery-limit"), 10) || 0;
+      var fallback = parseInt(container.getAttribute("data-gallery-fallback"), 10) || 6;
+
+      var found = [];
+      var index = 1;
+
+      function nextBatch() {
+        var batch = [];
+        for (var k = 0; k < BATCH && index <= MAX; k++, index++) {
+          batch.push(probe(base + pad(index) + EXT, index));
+        }
+        if (!batch.length) { finish(); return; }
+        Promise.all(batch).then(function (results) {
+          var anyHit = false;
+          results.forEach(function (r) { if (r.ok) { found.push(r.n); anyHit = true; } });
+          // stop once a whole window is empty, or the limit is satisfied
+          if (!anyHit || (limit && found.length >= limit) || index > MAX) {
+            finish();
+          } else {
+            nextBatch();
+          }
+        });
+      }
+
+      function finish() {
+        if (found.length) {
+          renderPhotos(container, base, found, limit);
+        } else {
+          renderPlaceholders(container, base, fallback);
+        }
+      }
+
+      nextBatch();
+    });
+  })();
+
   // mobile nav toggle
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.getElementById("main-nav");
