@@ -5,6 +5,17 @@
 
   var isGreek = (document.documentElement.lang || "").toLowerCase().indexOf("el") === 0;
 
+  // Image titles shown on the lightbox. The list cycles, so any number of
+  // photos gets a title. Edit these to rename them.
+  var GALLERY_CAPTIONS = {
+    el: ["Η παραλία", "Το μπαρ", "Κοκτέιλ", "Ξαπλώστρες", "Φαγητό", "Ηλιοβασίλεμα", "Live μουσική", "Βραδιά BBQ", "Η θέα"],
+    en: ["The beach", "The bar", "Cocktails", "Sun beds", "Food", "Sunset", "Live music", "BBQ night", "The view"]
+  };
+  function galleryCaption(n) {
+    var list = isGreek ? GALLERY_CAPTIONS.el : GALLERY_CAPTIONS.en;
+    return list[(n - 1) % list.length];
+  }
+
   // ---- gallery auto-loader ----------------------------------------------
   // Any element with data-gallery="<folder>/" fills itself with cards for the
   // photos it finds: 01.jpg, 02.jpg, 03.jpg ... Drop as many as you like
@@ -37,14 +48,17 @@
     function renderPhotos(container, base, nums, limit) {
       nums.sort(function (a, b) { return a - b; });
       if (limit) nums = nums.slice(0, limit);
-      var altWord = isGreek ? "Φωτογραφία" : "Photo";
       var frag = document.createDocumentFragment();
       nums.forEach(function (n) {
+        var cap = galleryCaption(n);
         var item = document.createElement("div");
         item.className = "gallery-item";
+        item.tabIndex = 0;
+        item.setAttribute("role", "button");
+        item.setAttribute("aria-label", cap);
         var img = document.createElement("img");
         img.src = base + pad(n) + EXT;
-        img.alt = altWord + " " + n;
+        img.alt = cap;
         img.loading = "lazy";
         item.appendChild(img);
         frag.appendChild(item);
@@ -99,6 +113,174 @@
       }
 
       nextBatch();
+    });
+  })();
+
+  // ---- gallery lightbox (drag / swipe carousel) -------------------------
+  // Click any gallery photo to open a full-screen viewer. Drag with the
+  // mouse or swipe on touch to move between photos; arrows and keyboard work
+  // too. Counter (number) and title show at the top.
+  (function initLightbox() {
+    var containers = document.querySelectorAll("[data-gallery]");
+    if (!containers.length) return;
+
+    var lb = document.createElement("div");
+    lb.className = "lightbox";
+    lb.setAttribute("role", "dialog");
+    lb.setAttribute("aria-modal", "true");
+    lb.setAttribute("aria-label", isGreek ? "Γκαλερί" : "Gallery");
+    var chevL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>';
+    var chevR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>';
+    var xIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>';
+    lb.innerHTML =
+      '<div class="lb-stage"><div class="lb-track">' +
+        '<div class="lb-slide"><img alt="" draggable="false"></div>' +
+        '<div class="lb-slide"><img alt="" draggable="false"></div>' +
+        '<div class="lb-slide"><img alt="" draggable="false"></div>' +
+      '</div></div>' +
+      '<div class="lb-counter"></div>' +
+      '<div class="lb-cap"></div>' +
+      '<button class="lb-close" aria-label="' + (isGreek ? "Κλείσιμο" : "Close") + '">' + xIcon + '</button>' +
+      '<button class="lb-prev" aria-label="' + (isGreek ? "Προηγούμενη" : "Previous") + '">' + chevL + '</button>' +
+      '<button class="lb-next" aria-label="' + (isGreek ? "Επόμενη" : "Next") + '">' + chevR + '</button>';
+    document.body.appendChild(lb);
+
+    var stage = lb.querySelector(".lb-stage");
+    var track = lb.querySelector(".lb-track");
+    var slideImgs = lb.querySelectorAll(".lb-slide img");
+    var counterEl = lb.querySelector(".lb-counter");
+    var capEl = lb.querySelector(".lb-cap");
+    var items = [];       // [{ src, cap }]
+    var idx = 0, animating = false;
+
+    function wrap(i) { return items.length ? (i + items.length) % items.length : 0; }
+    function srcOf(i) { return items.length ? items[wrap(i)].src : ""; }
+    function capOf(i) { return items.length ? items[wrap(i)].cap : ""; }
+    function placeTrack() {
+      track.classList.remove("anim");
+      track.style.transform = "translateX(" + (-stage.clientWidth) + "px)";
+    }
+    function render() {
+      slideImgs[0].src = srcOf(idx - 1);
+      slideImgs[1].src = srcOf(idx);
+      slideImgs[2].src = srcOf(idx + 1);
+      slideImgs[1].alt = capOf(idx);
+      counterEl.textContent = (idx + 1) + " / " + items.length;
+      capEl.textContent = capOf(idx);
+      placeTrack();
+    }
+    function slide(delta) {
+      if (animating) return;
+      var w = stage.clientWidth;
+      animating = true;
+      track.classList.add("anim");
+      track.style.transform = "translateX(" + (-w - delta * w) + "px)";
+      setTimeout(function () {
+        if (delta) idx = wrap(idx + delta);
+        render();
+        animating = false;
+      }, 430);
+    }
+    function open(list, i) {
+      items = list;
+      idx = wrap(i);
+      lb.classList.add("open");
+      document.body.style.overflow = "hidden";
+      render();
+    }
+    function close() {
+      lb.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    function collect(container) {
+      return Array.prototype.slice.call(container.querySelectorAll(".gallery-item img")).map(function (im) {
+        return { src: im.currentSrc || im.src, cap: im.getAttribute("alt") || "" };
+      });
+    }
+
+    containers.forEach(function (container) {
+      container.addEventListener("click", function (e) {
+        var img = e.target.closest ? e.target.closest(".gallery-item img") : null;
+        if (!img) return;
+        var imgs = Array.prototype.slice.call(container.querySelectorAll(".gallery-item img"));
+        open(collect(container), imgs.indexOf(img));
+      });
+      container.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        var item = e.target.closest ? e.target.closest(".gallery-item") : null;
+        if (!item || !item.querySelector("img")) return;
+        e.preventDefault();
+        var items2 = Array.prototype.slice.call(container.querySelectorAll(".gallery-item"));
+        open(collect(container), items2.indexOf(item));
+      });
+    });
+
+    lb.querySelector(".lb-close").addEventListener("click", close);
+    lb.querySelector(".lb-prev").addEventListener("click", function (e) { e.stopPropagation(); slide(-1); });
+    lb.querySelector(".lb-next").addEventListener("click", function (e) { e.stopPropagation(); slide(1); });
+    stage.addEventListener("click", function (e) {
+      if (mMoved) { mMoved = false; return; }
+      if (e.target.classList.contains("lb-slide")) close();
+    });
+    window.addEventListener("keydown", function (e) {
+      if (!lb.classList.contains("open")) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") slide(-1);
+      else if (e.key === "ArrowRight") slide(1);
+    });
+    window.addEventListener("resize", function () { if (lb.classList.contains("open") && !animating) placeTrack(); });
+
+    // touch drag - neighbour peeks in as you swipe
+    var downX = null, downY = null, dragging = false, dx = 0;
+    stage.addEventListener("touchstart", function (e) {
+      if (animating) return;
+      var t = e.changedTouches[0];
+      downX = t.clientX; downY = t.clientY; dragging = true; dx = 0;
+      track.classList.remove("anim");
+    }, { passive: true });
+    stage.addEventListener("touchmove", function (e) {
+      if (!dragging) return;
+      var t = e.changedTouches[0];
+      var mx = t.clientX - downX, my = t.clientY - downY;
+      if (Math.abs(mx) < Math.abs(my) && Math.abs(dx) < 6) return;
+      dx = mx;
+      track.style.transform = "translateX(" + (-stage.clientWidth + mx) + "px)";
+    }, { passive: true });
+    stage.addEventListener("touchend", function () {
+      if (!dragging) return;
+      dragging = false;
+      var threshold = Math.min(70, stage.clientWidth * 0.16);
+      if (dx <= -threshold) slide(1);
+      else if (dx >= threshold) slide(-1);
+      else slide(0);
+      downX = downY = null; dx = 0;
+    }, { passive: true });
+
+    // mouse drag - same slide-with-cursor feel on desktop
+    var mDown = false, mStartX = 0, mDx = 0, mMoved = false;
+    stage.addEventListener("mousedown", function (e) {
+      if (animating || e.button !== 0) return;
+      mDown = true; mStartX = e.clientX; mDx = 0; mMoved = false;
+      track.classList.remove("anim");
+      stage.classList.add("dragging");
+      e.preventDefault();
+    });
+    window.addEventListener("mousemove", function (e) {
+      if (!mDown) return;
+      mDx = e.clientX - mStartX;
+      if (Math.abs(mDx) > 4) mMoved = true;
+      track.style.transform = "translateX(" + (-stage.clientWidth + mDx) + "px)";
+    });
+    window.addEventListener("mouseup", function () {
+      if (!mDown) return;
+      mDown = false;
+      stage.classList.remove("dragging");
+      var threshold = Math.min(70, stage.clientWidth * 0.16);
+      if (mDx <= -threshold) slide(1);
+      else if (mDx >= threshold) slide(-1);
+      else if (mMoved) slide(0);
+      mDx = 0;
     });
   })();
 
