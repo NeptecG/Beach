@@ -29,6 +29,7 @@
     var MAX = 99;          // hard ceiling on how many photos to look for
     var BATCH = 8;         // probe in windows; tolerates gaps up to this size
     var EXT = ".jpg";
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     function pad(n) { return (n < 10 ? "0" : "") + n; }
 
@@ -45,26 +46,40 @@
       return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>';
     }
 
-    function renderPhotos(container, base, nums, limit) {
-      nums.sort(function (a, b) { return a - b; });
-      if (limit) nums = nums.slice(0, limit);
-      var frag = document.createDocumentFragment();
-      nums.forEach(function (n) {
-        var cap = galleryCaption(n);
-        var item = document.createElement("div");
-        item.className = "gallery-item";
-        item.tabIndex = 0;
-        item.setAttribute("role", "button");
-        item.setAttribute("aria-label", cap);
-        var img = document.createElement("img");
-        img.src = base + pad(n) + EXT;
-        img.alt = cap;
-        img.loading = "lazy";
-        item.appendChild(img);
-        frag.appendChild(item);
-      });
-      container.innerHTML = "";
-      container.appendChild(frag);
+    // photos rise in, staggered, as they scroll into view (loaded in bunches)
+    var revealObs = null;
+    if (!reduce && "IntersectionObserver" in window) {
+      revealObs = new IntersectionObserver(function (entries) {
+        var b = 0;
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          el.style.transitionDelay = (b * 90) + "ms";
+          el.classList.add("gi-in");
+          revealObs.unobserve(el);
+          b++;
+          el.addEventListener("transitionend", function clr() {
+            el.style.transitionDelay = "";
+            el.removeEventListener("transitionend", clr);
+          });
+        });
+      }, { threshold: 0.05, rootMargin: "0px 0px -5% 0px" });
+    }
+
+    function makeItem(base, n) {
+      var cap = galleryCaption(n);
+      var item = document.createElement("div");
+      item.className = "gallery-item gi-fade";
+      item.tabIndex = 0;
+      item.setAttribute("role", "button");
+      item.setAttribute("aria-label", cap);
+      var img = document.createElement("img");
+      img.src = base + pad(n) + EXT;
+      img.alt = cap;
+      img.loading = "lazy";       // browser loads photos in bunches as you scroll
+      item.appendChild(img);
+      if (revealObs) revealObs.observe(item); else item.classList.add("gi-in");
+      return item;
     }
 
     function renderPlaceholders(container, base, count) {
@@ -83,33 +98,35 @@
       var limit = parseInt(container.getAttribute("data-gallery-limit"), 10) || 0;
       var fallback = parseInt(container.getAttribute("data-gallery-fallback"), 10) || 6;
 
-      var found = [];
-      var index = 1;
+      var appended = 0, index = 1, done = false;
+
+      function finish() {
+        if (done) return;
+        done = true;
+        if (appended === 0) renderPlaceholders(container, base, fallback);
+      }
 
       function nextBatch() {
+        if (done) return;
         var batch = [];
         for (var k = 0; k < BATCH && index <= MAX; k++, index++) {
           batch.push(probe(base + pad(index) + EXT, index));
         }
         if (!batch.length) { finish(); return; }
         Promise.all(batch).then(function (results) {
-          var anyHit = false;
-          results.forEach(function (r) { if (r.ok) { found.push(r.n); anyHit = true; } });
-          // stop once a whole window is empty, or the limit is satisfied
-          if (!anyHit || (limit && found.length >= limit) || index > MAX) {
-            finish();
-          } else {
-            nextBatch();
+          var hits = results.filter(function (r) { return r.ok; })
+                            .map(function (r) { return r.n; })
+                            .sort(function (a, b) { return a - b; });
+          if (appended === 0 && hits.length) container.innerHTML = ""; // drop empty state on first real photo
+          for (var i = 0; i < hits.length; i++) {
+            if (limit && appended >= limit) break;
+            container.appendChild(makeItem(base, hits[i]));
+            appended++;
           }
+          // stop on an empty window, on hitting the limit, or at the ceiling
+          if (!hits.length || (limit && appended >= limit) || index > MAX) finish();
+          else nextBatch();
         });
-      }
-
-      function finish() {
-        if (found.length) {
-          renderPhotos(container, base, found, limit);
-        } else {
-          renderPlaceholders(container, base, fallback);
-        }
       }
 
       nextBatch();
