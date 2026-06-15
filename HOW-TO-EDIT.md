@@ -13,8 +13,16 @@ Greek file and its English twin.
 ## 1. Photos
 
 ### The big homepage banner (hero)
-Replace the file `assets/hero.jpg` with your own photo (keep the same name).
-Landscape/wide photo works best. Done — it shows on both languages.
+Replace `assets/hero.jpg` with your own photo (keep the same name). Landscape /
+wide works best. Done — it shows on both languages.
+
+For the fastest possible loading, the template also ships smaller/modern copies
+of the hero: `hero.webp`, `hero-mobile.jpg`, `hero-mobile.webp`. If you want that
+speed boost with your own photo, export those sizes too (1600px wide for the
+desktop ones, 1024px for the `-mobile` ones) using a free tool like squoosh.app.
+If you only replace `hero.jpg`, the site still works — to avoid the browser
+looking for the missing WebP, delete the two `image-set(...)` lines under
+`.hero-photo` in `styles.css`.
 
 ### The gallery photos
 Drop your photos into the `assets/gallery/` folder, named exactly:
@@ -58,6 +66,10 @@ Open `menu.html` (Greek) and `en/menu.html` (English). Each item looks like:
 Type your price right after the `€`, e.g. `€3.50`. Change the name text to
 rename a dish.
 
+**Printed / PDF menu:** the menu page has a "Print / Save as PDF" button. It
+opens the browser's print dialog, which prints a clean version (no menu bar,
+no footer) — or "Save as PDF" there to hand guests a file. Nothing to maintain.
+
 ## 4. Opening hours, weekly program, reviews
 
 Plain text inside `index.html` / `en/index.html` — search for the line you see
@@ -75,7 +87,17 @@ on the site and edit it.
 - **Sales supervisor name:** the menu footer has a placeholder
   "Αγορανομικός υπεύθυνος" — add the responsible person's name.
 
-## 6. Want an admin dashboard instead of editing files?
+## 6. Editing the menu bar, footer, phone — note
+
+To keep the site fast and simple there is no "master template" file — each page
+has its own copy of the top bar, navigation and footer. So if you change a nav
+link, the footer text, or the phone number, make the change on **every** page
+(the 5 Greek files in the main folder and the 4 English files in `en/`). The
+easiest way is your editor's **Find in all files / Replace in all files**: search
+the old text once, replace everywhere. (This is normal for a plain HTML site; the
+trade-off buys you speed and zero dependencies.)
+
+## 7. Want an admin dashboard instead of editing files?
 
 If you'd rather log in and upload photos/edit text from a panel (no files),
 this site can be connected to a free git-based CMS like **Decap CMS**

@@ -252,9 +252,20 @@ body::after {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url('assets/hero.jpg');
   background-size: cover;
   background-position: center 40%;
+  /* hero.jpg is the universal fallback; browsers that can use WebP get the
+     lighter file. Mobile loads a smaller image (see media query below). */
+  background-image: url('assets/hero.jpg');
+  background-image: -webkit-image-set(url('assets/hero.webp') type('image/webp'), url('assets/hero.jpg') type('image/jpeg'));
+  background-image: image-set(url('assets/hero.webp') type('image/webp'), url('assets/hero.jpg') type('image/jpeg'));
+}
+@media (max-width: 768px) {
+  .hero-photo {
+    background-image: url('assets/hero-mobile.jpg');
+    background-image: -webkit-image-set(url('assets/hero-mobile.webp') type('image/webp'), url('assets/hero-mobile.jpg') type('image/jpeg'));
+    background-image: image-set(url('assets/hero-mobile.webp') type('image/webp'), url('assets/hero-mobile.jpg') type('image/jpeg'));
+  }
 }
 .hero-scrim {
   position: absolute;
@@ -1040,6 +1051,57 @@ body::after {
     bottom: 0.75rem;
     max-width: none;
   }
+}
+
+/* ---------- skip to content (keyboard / screen-reader) ---------- */
+.skip-link {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
+  z-index: 2000;
+  background: var(--sea-deep);
+  color: var(--sand);
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-150%);
+  transition: transform 0.2s var(--ease);
+}
+.skip-link:focus { transform: translateY(0); outline: 3px solid var(--coral); outline-offset: 2px; }
+
+/* ---------- print / save-as-PDF (menu) ---------- */
+.menu-print {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: var(--space-3);
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  border: 2px solid var(--sand);
+  background: transparent;
+  color: var(--sand);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.menu-print:hover { background: var(--sand); color: var(--sea-deep); }
+.menu-print svg { width: 18px; height: 18px; }
+@media print {
+  .topbar, .site-header, .menu-chips, .nav-toggle, .lang-switch, .skip-link,
+  .cookie-banner, .lightbox, .site-footer, .menu-print, .menu-hero p,
+  .menu-hero .kicker { display: none !important; }
+  body { background: #fff; color: #000; }
+  body::after { display: none; }
+  .menu-hero { background: #fff !important; color: #000 !important; padding-block: 0.5rem 0; }
+  .menu-hero h1 { color: #000 !important; }
+  .menu-section { padding-block: 1rem !important; background: #fff !important; break-inside: auto; }
+  .menu-section-head h2, .menu-item-name, .menu-item-name .gr-name,
+  .menu-item-desc, .menu-item-price, .menu-section-head .gr, .menu-legal p { color: #000 !important; }
+  .menu-zigzag { color: #888 !important; }
+  .menu-item { break-inside: avoid; }
+  a { color: #000 !important; text-decoration: none; }
 }
 
 /* ---------- reduced motion ---------- */
