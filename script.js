@@ -177,6 +177,15 @@
       track.classList.remove("anim");
       track.style.transform = "translateX(" + (-stage.clientWidth) + "px)";
     }
+    // sit the counter just above the photo and the caption just below it,
+    // measured from the actual displayed image (any size / aspect ratio)
+    function positionLabels() {
+      var im = slideImgs[1];
+      if (!im || !im.naturalWidth) return;
+      var r = im.getBoundingClientRect();
+      counterEl.style.top = Math.max(8, r.top - 32) + "px";
+      capEl.style.top = (r.bottom + 12) + "px";
+    }
     function render() {
       slideImgs[0].src = srcOf(idx - 1);
       slideImgs[1].src = srcOf(idx);
@@ -185,6 +194,8 @@
       counterEl.textContent = (idx + 1) + " / " + items.length;
       capEl.textContent = capOf(idx);
       placeTrack();
+      slideImgs[1].onload = positionLabels;
+      requestAnimationFrame(positionLabels);
     }
     function slide(delta) {
       if (animating) return;
@@ -246,7 +257,7 @@
       else if (e.key === "ArrowLeft") slide(-1);
       else if (e.key === "ArrowRight") slide(1);
     });
-    window.addEventListener("resize", function () { if (lb.classList.contains("open") && !animating) placeTrack(); });
+    window.addEventListener("resize", function () { if (lb.classList.contains("open") && !animating) { placeTrack(); positionLabels(); } });
 
     // touch drag - neighbour peeks in as you swipe
     var downX = null, downY = null, dragging = false, dx = 0;

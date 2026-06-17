@@ -557,9 +557,11 @@ body::after {
   -webkit-user-drag: none;
   user-select: none;
 }
+/* counter and caption hug the image; their exact top is set in JS so they
+   sit just above / just below whatever size the current photo is. */
 .lb-counter {
   position: absolute;
-  top: clamp(1rem, 3.5vh, 1.7rem);
+  top: 1.5rem;
   left: 0; right: 0;
   text-align: center;
   color: var(--sand);
@@ -572,7 +574,7 @@ body::after {
 }
 .lb-cap {
   position: absolute;
-  bottom: clamp(1.2rem, 5vh, 2.6rem);
+  top: 80vh;
   left: 0; right: 0;
   text-align: center;
   color: var(--gold);
