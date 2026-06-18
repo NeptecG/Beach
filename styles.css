@@ -230,11 +230,11 @@ body::after {
   letter-spacing: -0.01em;
   margin-bottom: var(--space-3);
   color: #ffffff;
-  text-shadow: 0 2px 18px rgba(4, 28, 26, 0.55);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
 }
 .hero h1 em { font-style: italic; color: var(--gold); }
-.hero-kicker { text-shadow: 0 1px 10px rgba(4, 28, 26, 0.5); }
-.hero p { font-size: clamp(1.1rem, 2vw, 1.3rem); max-width: 36rem; color: #eef6f3; text-shadow: 0 1px 12px rgba(4, 28, 26, 0.5); }
+.hero-kicker { text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5); }
+.hero p { font-size: clamp(1.1rem, 2vw, 1.3rem); max-width: 36rem; color: #eef6f3; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5); }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
 
 /* aerial beach scene (homepage hero background) */
@@ -273,12 +273,12 @@ body::after {
   z-index: 1;
   /* darken only where the text sits (left + bottom), keep the rest of the photo clear */
   background:
-    linear-gradient(90deg, rgba(7, 48, 46, 0.58) 0%, rgba(7, 48, 46, 0.26) 38%, rgba(7, 48, 46, 0) 70%),
-    linear-gradient(0deg, rgba(7, 48, 46, 0.34) 0%, rgba(7, 48, 46, 0) 40%);
+    linear-gradient(90deg, rgba(0, 0, 0, 0.58) 0%, rgba(0, 0, 0, 0.26) 38%, rgba(0, 0, 0, 0) 70%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.34) 0%, rgba(0, 0, 0, 0) 40%);
 }
 @media (max-width: 720px) {
   .hero-scrim {
-    background: linear-gradient(180deg, rgba(7, 48, 46, 0.42) 0%, rgba(7, 48, 46, 0.16) 42%, rgba(7, 48, 46, 0.5) 100%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.16) 42%, rgba(0, 0, 0, 0.5) 100%);
   }
 }
 
