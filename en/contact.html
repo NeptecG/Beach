@@ -25,6 +25,10 @@
   <meta name="twitter:description" content="Find us on the beach in Preveza, Greece 48100. Call +30 26820 00000.">
   <meta name="twitter:image" content="https://www.yourbeachbar.gr/og-image.jpg">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23f6efe2'/%3E%3Ccircle cx='50' cy='42' r='20' fill='%23e9c46a'/%3E%3Cpath d='M0 76 Q25 60 50 76 T100 76 V100 H0 Z' fill='%231ba0aa'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Alegreya+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -155,12 +159,13 @@
           </div>
         </div>
 
-        <div class="map-ph">
-          <div class="photo-ph">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Map placeholder
-            <small>embed your Google Maps location here</small>
-          </div>
+        <!-- MAP: replace the q= value in both URLs below with your exact spot
+             (your place name on Google Maps, or "lat,long"). Town-level pin for now. -->
+        <div class="map-embed">
+          <iframe title="Map &middot; Beach Bar Preveza" src="https://www.google.com/maps?q=Preveza%2048100%20Greece&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+        <div class="map-actions">
+          <a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&destination=Preveza%2048100%20Greece" target="_blank" rel="noopener">Get directions</a>
         </div>
       </div>
     </section>
@@ -210,7 +215,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>&copy; 2026 Beach Bar Template &middot; Preveza, Greece</span>
+        <span>&copy; 2026 Beach Bar Template &middot; Preveza, Greece &middot; <a href="privacy.html">Privacy Policy</a></span>
         <span>Open daily 09:00 till late, May to October</span>
       </div>
     </div>

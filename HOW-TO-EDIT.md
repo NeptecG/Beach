@@ -75,6 +75,19 @@ no footer) — or "Save as PDF" there to hand guests a file. Nothing to maintain
 Plain text inside `index.html` / `en/index.html` — search for the line you see
 on the site and edit it.
 
+## 4b. Map, privacy policy, favicon
+
+- **Map:** the Contact page has a live Google map + "Get directions" button set to
+  the town. To pin your exact spot, open `contact.html` (and `en/contact.html`),
+  find the `q=` value in the two map URLs and replace `Preveza 48100 Greece` with
+  your place name on Google Maps (or `lat,long`).
+- **Privacy / cookie policy:** `privacy.html` + `en/privacy.html` are ready —
+  fill every `[bracketed]` item (business legal name, email service, date) with
+  your real details. Linked from the footer and the cookie banner.
+- **Favicon / phone-icon:** `favicon-*.png`, `apple-touch-icon.png`,
+  `favicon.ico` and `site.webmanifest` are generated from the sun-and-wave icon.
+  Replace these files if you rebrand.
+
 ## 5. Before going live (one-time setup)
 
 - **Your web address:** search every file for `yourbeachbar.gr` and replace it

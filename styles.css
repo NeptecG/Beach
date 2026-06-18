@@ -1016,6 +1016,8 @@ body::after {
   color: var(--ink-soft);
   margin-bottom: var(--space-2);
 }
+.cookie-policy-link { color: var(--sea); text-decoration: underline; font-weight: 600; }
+.cookie-policy-link:hover { color: var(--sea-deep); }
 .cookie-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 .cookie-btn {
   flex: 1;
@@ -1060,6 +1062,33 @@ body::after {
     max-width: none;
   }
 }
+
+/* ---------- legal page (privacy / cookies) ---------- */
+.legal-page { max-width: 52rem; }
+.legal-page h2 { color: var(--sea-deep); font-size: clamp(1.3rem, 3vw, 1.7rem); margin-top: var(--space-4); }
+.legal-page p, .legal-page li { color: var(--ink-soft); font-size: 1.05rem; line-height: 1.7; }
+.legal-page ul { padding-left: 1.2rem; margin-bottom: var(--space-2); }
+.legal-page li { margin-bottom: 0.4rem; }
+.legal-page a { color: var(--sea-deep); text-decoration: underline; }
+.legal-note {
+  background: var(--paper);
+  border: 1px solid rgba(233, 196, 106, 0.6);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-3);
+}
+.footer-bottom a { color: inherit; text-decoration: underline; transition: color 0.2s var(--ease); }
+.footer-bottom a:hover { color: var(--gold); }
+
+/* ---------- contact map ---------- */
+.map-embed {
+  margin-top: var(--space-4);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+.map-embed iframe { display: block; width: 100%; height: clamp(280px, 40vh, 420px); border: 0; }
+.map-actions { margin-top: var(--space-2); text-align: center; }
 
 /* ---------- skip to content (keyboard / screen-reader) ---------- */
 .skip-link {

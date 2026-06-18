@@ -421,7 +421,7 @@
       marketing: "Διαφήμισης", marketingDesc: "Εξατομικευμένες διαφημίσεις και περιεχόμενο",
       customise: "Προσαρμογή", save: "Αποθήκευση προτιμήσεων",
       reject: "Απόρριψη όλων", accept: "Αποδοχή όλων",
-      ariaLabel: "Συναίνεση cookies"
+      ariaLabel: "Συναίνεση cookies", more: "Μάθετε περισσότερα"
     } : {
       title: "We value your privacy",
       text: 'We use cookies to enhance your browsing experience, serve personalised ads or content, and analyse our traffic. By clicking "Accept All", you consent to our use of cookies.',
@@ -430,7 +430,7 @@
       marketing: "Marketing", marketingDesc: "Personalised ads and content",
       customise: "Customise", save: "Save preferences",
       reject: "Reject All", accept: "Accept All",
-      ariaLabel: "Cookie consent"
+      ariaLabel: "Cookie consent", more: "Learn more"
     };
 
     var banner = document.createElement("div");
@@ -440,7 +440,7 @@
     banner.setAttribute("aria-label", T.ariaLabel);
     banner.innerHTML =
       '<h3>' + T.title + '</h3>' +
-      '<p>' + T.text + '</p>' +
+      '<p>' + T.text + ' <a href="privacy.html" class="cookie-policy-link">' + T.more + '</a></p>' +
       '<div class="cookie-prefs" id="cookie-prefs">' +
         '<label class="cookie-pref"><span><strong>' + T.necessary + '</strong><small>' + T.necessaryDesc + '</small></span><input type="checkbox" checked disabled></label>' +
         '<label class="cookie-pref"><span><strong>' + T.analytics + '</strong><small>' + T.analyticsDesc + '</small></span><input type="checkbox" id="cookie-analytics" checked></label>' +

@@ -58,4 +58,18 @@
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://www.yourbeachbar.gr/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="el" href="https://www.yourbeachbar.gr/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.yourbeachbar.gr/en/privacy.html"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.yourbeachbar.gr/en/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="el" href="https://www.yourbeachbar.gr/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.yourbeachbar.gr/en/privacy.html"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
 </urlset>
