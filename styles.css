@@ -8,15 +8,15 @@
 
 :root {
   /* palette */
-  --sand: #f6efe2;
-  --sand-deep: #efe4cf;
-  --paper: #fffaf0;
+  --sand: #f4f7fa;
+  --sand-deep: #e6edf3;
+  --paper: #ffffff;
   --ink: #1f3236;
   --ink-soft: #46595d;
-  --sea: #1ba0aa;
-  --sea-deep: #0e6f79;
-  --sea-light: #5fccd4;
-  --aqua: #b0e9ec;
+  --sea: #1773bf;
+  --sea-deep: #08406b;
+  --sea-light: #7cc1ec;
+  --aqua: #cfe6f7;
   --coral: #e76f51;
   --coral-deep: #cf5836;
   --gold: #e9c46a;
@@ -206,7 +206,7 @@ body::after {
   position: relative;
   background:
     radial-gradient(120% 90% at 85% 10%, rgba(233, 196, 106, 0.35), transparent 55%),
-    linear-gradient(180deg, #0e6f79 0%, #1ba0aa 45%, #5fccd4 100%);
+    linear-gradient(180deg, #08406b 0%, #1773bf 45%, #7cc1ec 100%);
   color: var(--sand);
   overflow: hidden;
 }
@@ -229,7 +229,7 @@ body::after {
   font-weight: 700;
   letter-spacing: -0.01em;
   margin-bottom: var(--space-3);
-  color: #fffaf0;
+  color: #ffffff;
   text-shadow: 0 2px 18px rgba(4, 28, 26, 0.55);
 }
 .hero h1 em { font-style: italic; color: var(--gold); }
@@ -333,7 +333,7 @@ body::after {
 }
 .section-sea .kicker { color: var(--gold); }
 .section-head h2 { font-size: clamp(2rem, 4.5vw, 3rem); color: var(--sea-deep); }
-.section-sea .section-head h2 { color: #fffaf0; }
+.section-sea .section-head h2 { color: #ffffff; }
 .section-head p { color: var(--ink-soft); font-size: 1.1rem; }
 .section-sea .section-head p { color: #cfe8e3; }
 
@@ -352,9 +352,9 @@ body::after {
 .photo-ph {
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(160deg, rgba(95, 204, 212, 0.25), rgba(233, 196, 106, 0.3)),
+    linear-gradient(160deg, rgba(124, 193, 236, 0.25), rgba(233, 196, 106, 0.3)),
     repeating-linear-gradient(-45deg, var(--sand-deep) 0 14px, var(--sand) 14px 28px);
-  border: 2px dashed rgba(27, 160, 170, 0.45);
+  border: 2px dashed rgba(23, 115, 191, 0.45);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -436,7 +436,7 @@ body::after {
   box-shadow: var(--shadow-soft);
 }
 .menu-card:hover { transform: translateY(-6px) rotate(-0.5deg); box-shadow: var(--shadow-lift); }
-.menu-card h3 { font-size: 1.5rem; margin-bottom: 0.2rem; color: #fffaf0; }
+.menu-card h3 { font-size: 1.5rem; margin-bottom: 0.2rem; color: #ffffff; }
 .menu-card p { margin: 0; font-size: 0.95rem; opacity: 0.85; }
 .menu-card .go {
   position: absolute;
@@ -450,7 +450,7 @@ body::after {
 }
 .menu-card:hover .go { background: var(--coral); transform: rotate(45deg); }
 .menu-card .go svg { width: 18px; height: 18px; }
-.mc-1 { background: linear-gradient(160deg, #1ba0aa, #0e6f79); }
+.mc-1 { background: linear-gradient(160deg, #1773bf, #08406b); }
 .mc-2 { background: linear-gradient(160deg, #e76f51, #b34226); }
 .mc-3 { background: linear-gradient(160deg, #3a7d44, #245430); }
 .mc-4 { background: linear-gradient(160deg, #b8860b, #8a5a00); }
@@ -480,7 +480,7 @@ body::after {
   display: block;
   margin-bottom: 0.4rem;
 }
-.program-card h3 { color: #fffaf0; font-size: 1.45rem; letter-spacing: 0.04em; }
+.program-card h3 { color: #ffffff; font-size: 1.45rem; letter-spacing: 0.04em; }
 .program-card p { color: #cfe8e3; margin: 0; }
 .program-time {
   display: inline-block;
@@ -662,7 +662,7 @@ body::after {
   justify-content: space-between;
   gap: var(--space-3);
 }
-.contact-strip h2 { color: #fffaf0; font-size: clamp(1.7rem, 3.5vw, 2.4rem); margin: 0; }
+.contact-strip h2 { color: #ffffff; font-size: clamp(1.7rem, 3.5vw, 2.4rem); margin: 0; }
 .contact-strip .sub { color: #cfe8e3; margin: 0.4rem 0 0; }
 
 /* ---------- contact page ---------- */
@@ -712,7 +712,7 @@ body::after {
 .contact-form textarea:focus {
   outline: none;
   border-color: var(--sea-light);
-  box-shadow: 0 0 0 3px rgba(95, 204, 212, 0.2);
+  box-shadow: 0 0 0 3px rgba(124, 193, 236, 0.2);
 }
 .form-note { font-size: 0.9rem; color: var(--ink-soft); margin: 0; }
 .map-ph { margin-top: var(--space-4); }
@@ -727,7 +727,7 @@ body::after {
   text-align: center;
   padding-block: clamp(3.5rem, 8vw, 6rem);
 }
-.menu-hero h1 { font-size: clamp(2.4rem, 6vw, 4rem); color: #fffaf0; }
+.menu-hero h1 { font-size: clamp(2.4rem, 6vw, 4rem); color: #ffffff; }
 .menu-hero p { color: #cfe8e3; max-width: 34rem; margin-inline: auto; }
 .menu-hero .kicker { color: var(--gold); }
 
@@ -748,7 +748,7 @@ body::after {
   flex: none;
   padding: 0.45rem 1.1rem;
   border-radius: 999px;
-  border: 1.5px solid rgba(27, 160, 170, 0.35);
+  border: 1.5px solid rgba(23, 115, 191, 0.35);
   color: var(--sea-deep);
   font-weight: 600;
   font-size: 0.9rem;
@@ -894,7 +894,7 @@ body::after {
   text-align: center;
   padding-block: clamp(3.5rem, 8vw, 6rem);
 }
-.page-hero h1 { font-size: clamp(2.4rem, 6vw, 4rem); color: #fffaf0; }
+.page-hero h1 { font-size: clamp(2.4rem, 6vw, 4rem); color: #ffffff; }
 .page-hero p { color: #cfe8e3; max-width: 36rem; margin-inline: auto; }
 .page-hero .kicker { color: var(--gold); }
 
@@ -955,7 +955,7 @@ body::after {
   overflow: hidden;
   background:
     radial-gradient(120% 90% at 85% 10%, rgba(233, 196, 106, 0.35), transparent 55%),
-    linear-gradient(180deg, #0e6f79 0%, #1ba0aa 45%, #5fccd4 100%);
+    linear-gradient(180deg, #08406b 0%, #1773bf 45%, #7cc1ec 100%);
   color: var(--sand);
   padding: clamp(3rem, 8vw, 6rem) 1.5rem clamp(7rem, 14vw, 10rem);
 }
@@ -969,7 +969,7 @@ body::after {
   font-weight: 700;
   font-size: clamp(5.5rem, 18vw, 10rem);
   line-height: 1;
-  color: #fffaf0;
+  color: #ffffff;
   margin-bottom: var(--space-2);
 }
 .error-code .buoy {
@@ -983,7 +983,7 @@ body::after {
   50% { translate: 0 -12px; }
 }
 .error-hero .kicker { color: var(--gold); }
-.error-hero h1 { color: #fffaf0; font-size: clamp(1.7rem, 4.5vw, 2.6rem); }
+.error-hero h1 { color: #ffffff; font-size: clamp(1.7rem, 4.5vw, 2.6rem); }
 .error-hero p { color: #d8ece8; }
 .error-hero .error-en { font-style: italic; font-size: 0.95rem; color: #aed4cd; }
 .error-ctas { display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: center; margin-top: var(--space-3); }
@@ -1026,12 +1026,12 @@ body::after {
   border-radius: 10px;
   font-weight: 700;
   font-size: 0.9rem;
-  border: 1.5px solid rgba(27, 160, 170, 0.45);
+  border: 1.5px solid rgba(23, 115, 191, 0.45);
   background: transparent;
   color: var(--sea-deep);
   transition: background 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
 }
-.cookie-btn:hover { background: rgba(27, 160, 170, 0.08); transform: translateY(-1px); }
+.cookie-btn:hover { background: rgba(23, 115, 191, 0.08); transform: translateY(-1px); }
 .cookie-btn.primary {
   background: var(--coral);
   border-color: var(--coral);
